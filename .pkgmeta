@@ -1,0 +1,10 @@
+package-as: EasyFlightMap
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+ignore:
+  - .github
+  - assets
+  - docs
+  - README-koKR.md
+  - RELEASING.md

@@ -2,8 +2,6 @@
 
 [English guide](docs/USER_GUIDE-enUS.md) · [한국어 설명서](docs/USER_GUIDE-koKR.md)
 
-![Easy Flight Map](assets/Project-Icon.png)
-
 ## English
 
 A dedicated flight map showing destinations, fares, and travel times, with animated route highlighting and optional confirmation before flying.
