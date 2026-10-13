@@ -1,5 +1,27 @@
 # Changelog — Easy Flight Map
 
+## 0.6.0
+
+### English
+
+- Add a destination list next to the map with search, sorting by name, time or fare, and favorites. Press Enter in the search box to fly to the first result.
+- Mark favorite destinations with a star on the map and keep them at the top of the list.
+- Add a soft pulse around your current location.
+- Show the local arrival time on the remaining flight time bar.
+- Open the map much faster on busy continents and keep sliders smooth while resizing.
+- Stop the default flight map from flashing before the Easy Flight Map window.
+- Remove the unused world map art option.
+
+### 한국어
+
+- 지도 옆에 목적지 목록을 추가했습니다. 검색, 이름·시간·요금 정렬, 즐겨찾기를 지원하며 검색창에서 Enter를 누르면 첫 번째 목적지로 비행합니다.
+- 즐겨찾기한 목적지는 지도에 별로 표시되고 목록 맨 위에 나옵니다.
+- 현재 위치에 퍼져 나가는 파동 효과를 추가했습니다.
+- 남은 비행 시간 막대에 도착 예정 시각을 표시합니다.
+- 비행 지점이 많은 대륙에서도 지도가 훨씬 빨리 열리고, 크기 슬라이더가 끊기지 않습니다.
+- 전용 지도가 뜨기 전에 기본 비행 지도가 잠깐 비치던 문제를 고쳤습니다.
+- 효과가 없던 세계 지도 그림 설정을 없앴습니다.
+
 ## 0.5.2
 
 ### English

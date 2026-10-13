@@ -1,6 +1,5 @@
--- Directed taxi path distances in yards; game data build 1.60.1.70205.
--- Numeric TaxiPath/TaxiPathNode facts checked against AME Taxi Tools 3.0.5.
--- No AME implementation or media is included.
+-- Directed taxi path distances in yards, measured from the game client's
+-- taxi path data (build 1.60.1.70205). Used only to estimate flight times.
 EasyFlightMapRouteDistances = {
     [2] = {
         [4] = 2357,

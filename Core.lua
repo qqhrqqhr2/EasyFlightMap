@@ -29,8 +29,6 @@ if GetLocale() == "koKR" then
         HINT         = "클릭: 비행   드래그: 창 이동   Ctrl+휠: 크기",
         ON           = "켜짐",
         OFF          = "꺼짐",
-        ART_WORLD    = "세계 지도",
-        ART_TAXI     = "기본 비행 지도",
         SEC          = "%d초",
         MIN          = "%d분",
         MIN_SEC      = "%d분 %d초",
@@ -39,6 +37,7 @@ if GetLocale() == "koKR" then
         TT_EST       = "예상 시간: %s",
         TT_EST_NOTE  = "한 번 날아가면 실제 시간이 기록됩니다",
         BAR_SOON     = "곧 도착",
+        BAR_ETA      = "%s 도착",
         SETTINGS     = "설정",
         HEAD_BASIC   = "기본",
         HEAD_MAP     = "지도 표시",
@@ -49,7 +48,6 @@ if GetLocale() == "koKR" then
         OPT_LABELS   = "목적지 이름·요금·시간 표시",
         OPT_CROP     = "비행 지점 부분만 크게 보기",
         OPT_ALL      = "미발견·미연결 비행 지점도 표시",
-        OPT_ART      = "세계 지도 그림 사용 (끄면 기본 비행 지도 그림)",
         OPT_SCALE    = "창 크기",
         OPT_ALPHA    = "창 투명도",
         OPT_FONT     = "글자 크기",
@@ -57,6 +55,17 @@ if GetLocale() == "koKR" then
         OPT_BAR_SUB  = "막대는 드래그해서 옮길 수 있습니다",
         OPT_ALERT    = "도착하면 소리와 작업 표시줄 깜빡임으로 알림",
         OPT_CONFIRM  = "비행 전 확인 창 표시",
+        OPT_LIST     = "목적지 목록 표시",
+        OPT_LIST_SUB = "지도 옆에 검색·정렬·즐겨찾기 목록을 보여줍니다",
+        OPT_PULSE    = "현재 위치 파동 효과",
+        LIST_SEARCH  = "목적지 검색",
+        LIST_EMPTY   = "찾는 목적지가 없습니다",
+        LIST_TOGGLE  = "목적지 목록",
+        SORT_NAME    = "이름",
+        SORT_TIME    = "시간",
+        SORT_FARE    = "요금",
+        FAV_ADD      = "즐겨찾기에 추가",
+        FAV_REMOVE   = "즐겨찾기에서 빼기",
         CONFIRM_TITLE = "이 목적지로 비행할까요?",
         CONFIRM_FLY = "비행",
         CONFIRM_CANCEL = "취소",
@@ -71,8 +80,8 @@ if GetLocale() == "koKR" then
         MSG_ALPHA    = "창 투명도: %d%%",
         MSG_CROP     = "비행 지점 부분만 확대: %s",
         MSG_ALL      = "미발견·미연결 비행 지점 표시: %s",
-        MSG_ART      = "지도 그림: %s",
         MSG_LABELS   = "지도에 이름·요금·시간 표시: %s",
+        MSG_LIST     = "목적지 목록: %s",
         MSG_SKIP     = "비행 조련사 대화창 건너뛰기: %s",
         MSG_BAR      = "남은 비행 시간 막대: %s",
         MSG_ALERT    = "도착 알림: %s",
@@ -83,6 +92,7 @@ if GetLocale() == "koKR" then
             "/efm on | off  - 전용 비행 지도 켜기/끄기",
             "/efm skip  - 대화창 건너뛰고 바로 지도 열기 켜기/끄기 (Shift: 대화창 보기)",
             "/efm labels  - 지도에 이름·요금·시간 표시 켜기/끄기",
+            "/efm list  - 목적지 목록 켜기/끄기",
             "/efm scale 50~120  - 창 크기(%)",
             "/efm alpha 0~70  - 창 투명도(%)",
             "/efm bar  - 남은 비행 시간 막대 켜기/끄기",
@@ -93,7 +103,7 @@ if GetLocale() == "koKR" then
     }
 else
     L = {
-        TITLE        = "Flight Map",
+        TITLE        = "Easy Flight Map",
         CURRENT      = "You are here",
         FARE         = "Fare",
         TIME         = "Time",
@@ -107,8 +117,6 @@ else
         HINT         = "Click: fly   Drag: move   Ctrl+Wheel: size",
         ON           = "on",
         OFF          = "off",
-        ART_WORLD    = "world map",
-        ART_TAXI     = "default flight map",
         SEC          = "%ds",
         MIN          = "%dm",
         MIN_SEC      = "%dm %ds",
@@ -117,6 +125,7 @@ else
         TT_EST       = "Estimated time: %s",
         TT_EST_NOTE  = "The real time is recorded after you fly it once",
         BAR_SOON     = "Arriving",
+        BAR_ETA      = "arrive %s",
         SETTINGS     = "Settings",
         HEAD_BASIC   = "General",
         HEAD_MAP     = "Map",
@@ -126,8 +135,7 @@ else
         OPT_SKIP_SUB = "Hold Shift while talking to see the dialog",
         OPT_LABELS   = "Show destination name, cost and time",
         OPT_CROP     = "Zoom to flight points",
-        OPT_ALL      = "Show unreachable points",
-        OPT_ART      = "Use world map art (off: default flight map art)",
+        OPT_ALL      = "Show undiscovered and unconnected points",
         OPT_SCALE    = "Window size",
         OPT_ALPHA    = "Window transparency",
         OPT_FONT     = "Text size",
@@ -135,6 +143,17 @@ else
         OPT_BAR_SUB  = "Drag the bar to move it",
         OPT_ALERT    = "Play a sound and flash the taskbar on arrival",
         OPT_CONFIRM  = "Confirm before flying",
+        OPT_LIST     = "Show destination list",
+        OPT_LIST_SUB = "Searchable, sortable list with favorites next to the map",
+        OPT_PULSE    = "Pulse effect on your location",
+        LIST_SEARCH  = "Search destinations",
+        LIST_EMPTY   = "No matching destinations",
+        LIST_TOGGLE  = "Destination list",
+        SORT_NAME    = "Name",
+        SORT_TIME    = "Time",
+        SORT_FARE    = "Fare",
+        FAV_ADD      = "Add to favorites",
+        FAV_REMOVE   = "Remove from favorites",
         CONFIRM_TITLE = "Fly to this destination?",
         CONFIRM_FLY = "Fly",
         CONFIRM_CANCEL = "Cancel",
@@ -148,9 +167,9 @@ else
         MSG_SCALE    = "Window size: %d%%",
         MSG_ALPHA    = "Window transparency: %d%%",
         MSG_CROP     = "Zoom to flight points: %s",
-        MSG_ALL      = "Show unreachable points: %s",
-        MSG_ART      = "Map art: %s",
+        MSG_ALL      = "Show undiscovered and unconnected points: %s",
         MSG_LABELS   = "Name/cost/time labels: %s",
+        MSG_LIST     = "Destination list: %s",
         MSG_SKIP     = "Skip flight master dialog: %s",
         MSG_BAR      = "Remaining flight time bar: %s",
         MSG_ALERT    = "Arrival alert: %s",
@@ -161,6 +180,7 @@ else
             "/efm on | off  - enable/disable Easy Flight Map",
             "/efm skip  - toggle skipping the flight master dialog (Shift: show it)",
             "/efm labels  - toggle name/cost/time labels on the map",
+            "/efm list  - toggle the destination list",
             "/efm scale 50-120  - window size (%)",
             "/efm alpha 0-70  - window transparency (%)",
             "/efm bar  - toggle the remaining flight time bar",
@@ -178,7 +198,6 @@ local DB
 local defaults = {
     enabled         = true,
     skipGossip      = true,     -- 비행 조련사 대화창 건너뛰고 바로 지도 열기
-    art             = "taxi",   -- Use the stock taxi map and its own coordinates together.
     crop            = false,    -- 기본은 지도 전체 표시; 주변 확대는 선택 사항
     showUnreachable = true,
     labels          = true,     -- 지도에 이름·요금·시간 표시
@@ -188,6 +207,9 @@ local defaults = {
     flightBar       = true,     -- 비행 중 남은 시간 막대
     arrivalAlert    = true,     -- 도착 알림
     confirmFlight   = false,
+    showList        = true,     -- 지도 옆 목적지 목록
+    listSort        = "name",   -- "name" | "time" | "fare"
+    pulse           = true,     -- 현재 위치 파동 효과
     point           = nil,
     barPoint        = nil,
 }
@@ -207,7 +229,7 @@ local function InitDB()
     end
     if type(DB.times) ~= "table" then DB.times = {} end              -- "출발 > 도착" = 초
     if type(DB.flightSpeeds) ~= "table" then DB.flightSpeeds = {} end
-    if type(DB.calib) ~= "table" then DB.calib = { t = 0, d = 0 } end -- 예상 시간 보정용 (초, 야드)
+    if type(DB.favorites) ~= "table" then DB.favorites = {} end       -- 목적지 이름 = true
     DB.scale = FiniteNumber(DB.scale) and max(0.5,min(1.2,DB.scale)) or defaults.scale
     DB.alpha = FiniteNumber(DB.alpha) and max(0.3,min(1,DB.alpha)) or defaults.alpha
     -- Existing installs inherited automatic cropping. Show the complete map
@@ -224,16 +246,12 @@ local function InitDB()
         DB.destinationUI = 1
     end
     DB.labelSize = FiniteNumber(DB.labelSize) and max(8,min(14,floor(DB.labelSize))) or defaults.labelSize
-    -- Flight-map positions are not C_Map world-map positions.
-    -- Preserve old measured times but keep them in their original key namespace.
-    DB.art = "taxi"
-    if DB.taxiDataRevision ~= 2 then
-        DB.calib = {t=0,d=0}
-        DB.taxiDataRevision = 2
-    end
+    -- Settings from older builds that no longer have any effect.
+    DB.art, DB.calib = nil, nil
+    DB.taxiDataRevision = 2
+    if DB.listSort ~= "name" and DB.listSort ~= "time" and DB.listSort ~= "fare" then DB.listSort = "name" end
     if not ValidPoint(DB.point) then DB.point=nil end
     if not ValidPoint(DB.barPoint) then DB.barPoint=nil end
-    if not (FiniteNumber(DB.calib.t) and DB.calib.t>=0 and FiniteNumber(DB.calib.d) and DB.calib.d>=0) then DB.calib={t=0,d=0} end
 end
 
 local function Print(text)
@@ -269,6 +287,10 @@ local ICON_COLOR = {
 local GLOW_FILE = MEDIA .. "Pin-Glow"
 local GEAR_FILE = MEDIA .. "Gear"
 local RING_FILE = MEDIA .. "Pin-Selected"
+local LIST_FILE = MEDIA .. "List"
+local STAR_ON_FILE = MEDIA .. "Star-On"
+local STAR_OFF_FILE = MEDIA .. "Star-Off"
+local STAR_INLINE = "|T" .. STAR_ON_FILE .. ":0|t "
 
 local BACKDROP = {
     bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -280,6 +302,7 @@ local BACKDROP = {
 local PAD, TITLE_H, FOOT_H = 10, 30, 22
 local PIN_SIZE, PIN_SIZE_CURRENT = 22, 26
 local MIN_WIDTH = 340
+local LIST_W, LIST_GAP = 252, 8
 
 local BLIZZARD_FRAMES = { "TaxiFrame", "FlightMapFrame" }
 
@@ -295,6 +318,9 @@ local hover = { segments = {}, total = 0 }
 local snap          -- 마지막으로 연 비행 조련사의 비행 지점 정보
 local hidden = {}
 local ToggleSettingsPopup, CloseSettingsPopup   -- 아래 "설정 창"에서 정의
+local ListPanel, RenderList, SyncListSelection  -- 아래 "목적지 목록"에서 정의
+local Pulse                                     -- 현재 위치 파동
+local preAlpha = {}                             -- 기본 비행 창을 미리 투명하게 하기 전 투명도
 
 ---------------------------------------------------------------------------
 -- 유틸
@@ -358,12 +384,6 @@ local function NodeTypeOf(slot, st)
     if st == FPS_REACHABLE then return "REACHABLE" end
     if st == FPS_UNREACHABLE then return "DISTANT" end
     return "NONE"
-end
-
-local function PosXY(p)
-    if type(p) ~= "table" then return end
-    if p.GetXY then return p:GetXY() end
-    return p.x, p.y
 end
 
 local function ContinentMapID()
@@ -627,6 +647,19 @@ local function TakeSnapshot()
     return s
 end
 
+-- Everything that changes what the map shows. A second read that matches
+-- the first one does not need another (expensive) layout pass.
+local function SnapSignature(s)
+    if not s then return "" end
+    local parts = {}
+    for _, e in ipairs(s.list) do
+        parts[#parts + 1] = ("%d|%s|%s|%.4f|%.4f|%s|%s|%s|%s|%d"):format(e.slot, e.type, e.name,
+            e.plotX or -1, e.plotY or -1, tostring(e.cost), tostring(e.hops), tostring(e.dist),
+            tostring(e.undiscovered), e.segs and #e.segs or -1)
+    end
+    return table.concat(parts, ";")
+end
+
 -- Exact completed routes take priority. Otherwise sum the directed game
 -- path lengths and divide by calibrated speed, never taxi-map pixels.
 local function FlightTime(e)
@@ -657,7 +690,7 @@ end
 local function CreateBar()
     if Bar then return end
     Bar = CreateFrame("Frame", "EasyFlightMapBar", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
-    Bar:SetSize(250, 32)
+    Bar:SetSize(290, 32)
     Bar:SetFrameStrata("MEDIUM")
     Bar:SetClampedToScreen(true)
     Bar:SetMovable(true)
@@ -714,10 +747,13 @@ local function UpdateBar(now)
         Bar.status:SetValue(min(1, elapsed / pending.total))
         if remain <= 0 then
             Bar.time:SetText(L.BAR_SOON)
-        elseif pending.recorded then
-            Bar.time:SetText(FormatClock(remain))
         else
-            Bar.time:SetText(L.APPROX:format(FormatClock(remain)))
+            local left = pending.recorded and FormatClock(remain) or L.APPROX:format(FormatClock(remain))
+            -- Local clock time of arrival, e.g. "1:52 · 19:52 도착"
+            if date and time then
+                left = left .. "  |cffbbbbbb" .. L.BAR_ETA:format(date("%H:%M", time() + floor(remain + 0.5))) .. "|r"
+            end
+            Bar.time:SetText(left)
         end
     else
         Bar.status:SetValue(1)
@@ -773,21 +809,12 @@ watcher:SetScript("OnUpdate", function(self, elapsed)
         UpdateBar(now)
     else
         local dur = now - pending.start
-        local arrived=not pending.earlyLanding
-        if arrived and pending.mapID and pending.mx and C_Map and C_Map.GetPlayerMapPosition then
-            local ok,pos=pcall(C_Map.GetPlayerMapPosition,pending.mapID,"player")
-            if ok and pos then
-                local x,y=PosXY(pos)
-                if x and y then arrived=(x-pending.mx)^2+(y-pending.my)^2<=0.02^2 end
-            end
-        end
+        local arrived = not pending.earlyLanding
         if arrived and dur >= 5 and dur <= 3600 and DB then
             local new = floor(dur + 0.5)
             local old = DB.times[pending.key]
             DB.times[pending.key] = new
             if pending.dist and pending.dist > 0 then
-                DB.calib.t = DB.calib.t + dur
-                DB.calib.d = DB.calib.d + pending.dist
                 local measured = pending.dist / dur / (pending.speedMultiplier or 1)
                 local previous = DB.flightSpeeds[pending.speedKey]
                 if not FiniteNumber(previous) or previous < 8 or previous > 120 then previous = nil end
@@ -815,7 +842,6 @@ if hooksecurefunc and TakeTaxiNode then
         local total, recorded = FlightTime(e)
         pending = {
             key = e.timeKey, dest = e.name, dist = e.dist,
-            mapID=snap.mapID,mx=e.mx,my=e.my,
             speedKey=snap.speedKey, speedMultiplier=snap.speedMultiplier,
             total = total, recorded = recorded, t0 = GetTime(),
         }
@@ -891,7 +917,8 @@ local function HideBlizzard()
     for _, name in ipairs(BLIZZARD_FRAMES) do
         local f = _G[name]
         if f and f:IsShown() and not hidden[f] then
-            local saved = { mouse = {}, alpha = f:GetAlpha() }
+            local saved = { mouse = {}, alpha = preAlpha[f] or f:GetAlpha() }
+            preAlpha[f] = nil
             hidden[f] = saved
             f:SetAlpha(0)
             DisableMouseTree(f, saved.mouse)
@@ -906,6 +933,18 @@ local function RestoreBlizzard()
         end
         f:SetAlpha(saved.alpha)
         hidden[f] = nil
+    end
+    for f, alpha in pairs(preAlpha) do
+        f:SetAlpha(alpha)
+        preAlpha[f] = nil
+    end
+end
+
+-- Hide the stock map from its first frame so it does not flash before ours.
+local function PreHideBlizzard(f)
+    if DB and DB.enabled and not hidden[f] then
+        if preAlpha[f] == nil then preAlpha[f] = f:GetAlpha() end
+        f:SetAlpha(0)
     end
 end
 
@@ -922,6 +961,28 @@ local function Visible(node)
     -- unavailable zzOLD destinations; a live flight must remain usable.
     if node.type == "DISTANT" and type(node.name) == "string" and node.name:lower():match("^%s*zzold") then return false end
     return node.x and (node.type ~= "DISTANT" or DB.showUnreachable)
+end
+
+local function IsFavorite(node)
+    return node and DB.favorites[node.name] == true
+end
+
+local function ToggleFavorite(node)
+    if not node then return end
+    DB.favorites[node.name] = (not IsFavorite(node)) or nil
+end
+
+-- Search text typed in the destination list. Non-matching points are dimmed.
+local function MatchesFilter(node)
+    local q = cur.query
+    if not q or q == "" then return true end
+    local name = node.name or ""
+    return name:lower():find(q, 1, true) ~= nil or name:find(cur.queryRaw or q, 1, true) ~= nil
+end
+
+local function PinBaseAlpha(node)
+    if not MatchesFilter(node) then return 0.22 end
+    return node.type == "DISTANT" and 0.8 or 1
 end
 
 local function ComputeCrop(W, H, nodes)
@@ -958,7 +1019,8 @@ local function StyleLabel(lb, selected)
     if not lb then return end
     local kind = lb.node and lb.node.type
     local dimmed = hover.pin and not selected
-    lb.frame:SetAlpha(dimmed and 0.48 or 1)
+    local filtered = lb.node and not MatchesFilter(lb.node)
+    lb.frame:SetAlpha((filtered and not selected) and 0.22 or (dimmed and 0.48 or 1))
     if lb.leader then
         lb.leader:SetThickness(selected and 3 or 1)
         lb.leader:SetColorTexture(1, 0.86, 0.44, selected and 1 or (dimmed and 0.07 or 0.22))
@@ -1008,11 +1070,12 @@ local function ClearHover()
     for _,lb in ipairs(labelPool) do StyleLabel(lb,false) end
     for _,p in ipairs(pinPool) do
         if p.node then
-            p:SetAlpha(p.node.type=="DISTANT" and 0.8 or 1)
+            p:SetAlpha(PinBaseAlpha(p.node))
             if Viewport then p:SetFrameLevel(Viewport:GetFrameLevel()+(p.node.type=="CURRENT" and 8 or (p.node.type=="DISTANT" and 5 or 6))) end
         end
     end
     HideLines()
+    if SyncListSelection then SyncListSelection() end
     if HoverLayer then
         HoverLayer:SetScript("OnUpdate", nil)
         HoverLayer:Hide()
@@ -1114,7 +1177,7 @@ local function Pin_OnEnter(self)
         ClearHover()
         hover.pin, hover.elapsed = pin, 0
         for _,lb in ipairs(labelPool) do StyleLabel(lb,lb.pin==pin) end
-        for _,p in ipairs(pinPool) do if p.node then p:SetAlpha(p==pin and 1 or 0.5) end end
+        for _,p in ipairs(pinPool) do if p.node then p:SetAlpha(p==pin and 1 or min(0.5, PinBaseAlpha(p.node))) end end
         pin:SetFrameLevel(Viewport:GetFrameLevel()+12)
         local r, g, b = 1, 0.79, 0.31
         if node.type == "CURRENT" then r,g,b = 0.42,1,0.63
@@ -1123,6 +1186,7 @@ local function Pin_OnEnter(self)
         pin.glow:SetVertexColor(r,g,b)
         pin.ring:Show(); pin.glow:Show()
         DrawRoute(node)
+        if SyncListSelection then SyncListSelection() end
         HoverLayer:SetScript("OnUpdate", UpdateHover)
         HoverLayer:Show()
         UpdateHover(HoverLayer, 0)
@@ -1338,6 +1402,13 @@ local function RenderLabels(shown)
     end)
     local size=DB.labelSize or 12
     while size>8 and #shown*(size*16+16)*(size*3+10)>vw*vh*.55 do size=size-1 end
+    -- Every pin is a keep-out square for every label.
+    local keepOut={}
+    for i,other in ipairs(shown) do
+        local radius=other.r+14
+        keepOut[i]={other.px-radius,other.py-radius,other.px+radius,other.py+radius}
+    end
+    local nKeep=#keepOut
     local placed={}
     for i,item in ipairs(order) do
         local lb=labelPool[i]
@@ -1347,39 +1418,58 @@ local function RenderLabels(shown)
         lb.fontSize=size;item.pin.label=lb
         SetFontSize(lb.name,size);SetFontSize(lb.region,max(8,size-2));SetFontSize(lb.info,size)
         local destination,region=SplitDestinationName(node.name)
+        if IsFavorite(node) then destination=STAR_INLINE..destination end
         lb.name:SetText(destination);lb.region:SetText(region);lb.info:SetText(DestinationInfo(node,size))
         for _,fs in ipairs({lb.name,lb.region,lb.info}) do fs:SetWidth(0) end
         local w=min(max(lb.name:GetStringWidth(),lb.region:GetStringWidth(),lb.info:GetStringWidth())+16,vw*.42)
         local h=size*3+10
         local px,py,r=item.px,item.py,item.r+16
-        local bestX,bestY,bestScore
+        local maxX,maxY=max(0,vw-w),max(0,vh-h)
+        local bestX,bestY,bestScore,bestOverlap
         local function consider(x,y)
-            x=min(max(x,0),max(0,vw-w));y=min(max(y,0),max(0,vh-h))
-            local ex,ey=min(max(px,x),x+w),min(max(py,y),y+h)
+            if x<0 then x=0 elseif x>maxX then x=maxX end
+            if y<0 then y=0 elseif y>maxY then y=maxY end
+            local ex=px<x and x or (px>x+w and x+w or px)
+            local ey=py<y and y or (py>y+h and y+h or py)
             local dx,dy=ex-px,ey-py
             local score=dx*dx+dy*dy*1.3
             if (px<vw/2 and x+w<px) or (px>=vw/2 and x>px) then score=score+80 end
             if bestScore and score>=bestScore then return end
             -- Pin clearance is a hard constraint, including other destinations.
-            for _,other in ipairs(shown) do
-                local radius=other.r+14
-                if RectOverlap(x,y,w,h,other.px-radius,other.py-radius,radius*2,radius*2)>0 then return end
+            local x2,y2=x+w,y+h
+            for k=1,nKeep do
+                local q=keepOut[k]
+                if x<q[3] and x2>q[1] and y<q[4] and y2>q[2] then return end
             end
-            for _,p in ipairs(placed) do score=score+250*RectOverlap(x-2,y-2,w+4,h+4,p[1],p[2],p[3],p[4]) end
-            if not bestScore or score<bestScore then bestX,bestY,bestScore=x,y,score end
+            local overlap=0
+            for k=1,#placed do
+                local p=placed[k]
+                overlap=overlap+RectOverlap(x-2,y-2,w+4,h+4,p[1],p[2],p[3],p[4])
+            end
+            score=score+250*overlap
+            if not bestScore or score<bestScore then bestX,bestY,bestScore,bestOverlap=x,y,score,overlap end
         end
-        -- The same horizontal and vertical offsets are tried for every pin.
+        -- 1) Beside, above or below the pin. Most labels end here.
         for _,dy in ipairs({0,-h-4,h+4,-2*(h+4),2*(h+4)}) do
             consider(px+r,py-h/2+dy);consider(px-r-w,py-h/2+dy)
         end
         consider(px-w/2,py-r-h);consider(px-w/2,py+r)
-        -- Search only point-free rectangles, never trading a hidden pin for
-        -- a smaller distance. The fallback is deterministic on every render.
-        for y=0,max(0,vh-h),12 do
-            for x=0,max(0,vw-w),16 do consider(x,y) end
-            consider(vw-w,y)
+        -- 2) Nearby free space when the close spots are taken.
+        if not bestX or bestOverlap>0 then
+            local x0,x1=max(0,px-w-200),min(maxX,px+200)
+            local y0,y1=max(0,py-h-160),min(maxY,py+160)
+            for y=y0,y1,12 do
+                for x=x0,x1,16 do consider(x,y) end
+            end
         end
-        for x=0,max(0,vw-w),16 do consider(x,vh-h) end
+        -- 3) Anywhere on the map. Deterministic, only on very crowded maps.
+        if not bestX or bestOverlap>0 then
+            for y=0,maxY,12 do
+                for x=0,maxX,16 do consider(x,y) end
+                consider(maxX,y)
+            end
+            for x=0,maxX,16 do consider(x,maxY) end
+        end
         if bestX then
             placed[#placed+1]={bestX,bestY,w,h}
             lb.layoutX,lb.layoutY=bestX,bestY
@@ -1398,8 +1488,10 @@ local function RenderLabels(shown)
                 local ex,ey=min(max(px,bestX),bestX+w),min(max(py,bestY),bestY+h)
                 local dx,dy=ex-px,ey-py
                 local distance=sqrt(dx*dx+dy*dy)
-                lb.leader:SetStartPoint("TOPLEFT",Viewport,px+dx*(item.r+3)/distance,-(py+dy*(item.r+3)/distance))
-                lb.leader:SetEndPoint("TOPLEFT",Viewport,ex,-ey);lb.leader:Show()
+                if distance>0 then
+                    lb.leader:SetStartPoint("TOPLEFT",Viewport,px+dx*(item.r+3)/distance,-(py+dy*(item.r+3)/distance))
+                    lb.leader:SetEndPoint("TOPLEFT",Viewport,ex,-ey);lb.leader:Show()
+                end
             end
             StyleLabel(lb,false);lb.region:Show();lb.info:Show();lb.frame:Show()
         else
@@ -1410,11 +1502,317 @@ local function RenderLabels(shown)
     end
 end
 
+local Render
+local renderQueued = false
+local function ScheduleRender()
+    if renderQueued then return end
+    renderQueued = true
+    C_Timer.After(0, function()
+        renderQueued = false
+        if Main and Main:IsShown() and cur.nodes then Render() end
+    end)
+end
+
+---------------------------------------------------------------------------
+-- 목적지 목록 (검색·정렬·즐겨찾기)
+---------------------------------------------------------------------------
+local ROW_H, LIST_HEAD_H = 34, 54
+local listRows, listItems, listOffset = {}, {}, 0
+
+local function SortValue(node, key)
+    if key == "time" then return (FlightTime(node)) end
+    if key == "fare" then return FiniteNumber(node.cost) and node.cost or nil end
+end
+
+local function BuildListItems()
+    local items = {}
+    for _, node in ipairs(cur.nodes or {}) do
+        if node.type ~= "CURRENT" and Visible(node) and MatchesFilter(node) then items[#items + 1] = node end
+    end
+    local key = DB.listSort
+    local function group(n)
+        if IsFavorite(n) then return 1 end
+        return n.type == "REACHABLE" and 2 or 3
+    end
+    table.sort(items, function(a, b)
+        local ga, gb = group(a), group(b)
+        if ga ~= gb then return ga < gb end
+        if key ~= "name" then
+            local va, vb = SortValue(a, key), SortValue(b, key)
+            if va and vb and va ~= vb then return va < vb end
+            if va and not vb then return true end
+            if vb and not va then return false end
+        end
+        if a.name ~= b.name then return a.name < b.name end
+        return a.slot < b.slot
+    end)
+    return items
+end
+
+local function VisibleRowCount()
+    if not ListPanel then return 0 end
+    return max(1, floor((ListPanel:GetHeight() - LIST_HEAD_H - 6) / ROW_H))
+end
+
+local function Row_OnEnter(self)
+    if self.node and self.pin then Pin_OnEnter(self) end
+end
+local function Row_OnLeave(self) Pin_OnLeave(self) end
+local function Row_OnClick(self) if self.pin then Pin_OnClick(self) end end
+
+local function Star_OnClick(self)
+    local row = self:GetParent()
+    if not row.node then return end
+    ToggleFavorite(row.node)
+    if Render then Render() end
+end
+local function Star_OnEnter(self)
+    local row = self:GetParent()
+    if not row.node then return end
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:AddLine(IsFavorite(row.node) and L.FAV_REMOVE or L.FAV_ADD, 1, 0.82, 0)
+    GameTooltip:Show()
+end
+local function Star_OnLeave(self)
+    if GameTooltip:GetOwner() == self then GameTooltip:Hide() end
+end
+
+local function CreateRow(parent)
+    local row = CreateFrame("Button", nil, parent)
+    row:SetHeight(ROW_H)
+    row:RegisterForClicks("LeftButtonUp")
+    row.bg = row:CreateTexture(nil, "BACKGROUND")
+    row.bg:SetAllPoints()
+    row.bg:SetColorTexture(1, 1, 1, 0.03)
+    row.sel = row:CreateTexture(nil, "BORDER")
+    row.sel:SetAllPoints()
+    row.sel:SetColorTexture(1, 0.79, 0.31, 0.18)
+    row.sel:Hide()
+    local hl = row:CreateTexture(nil, "HIGHLIGHT")
+    hl:SetAllPoints()
+    hl:SetColorTexture(1, 0.86, 0.5, 0.10)
+    row.star = CreateFrame("Button", nil, row)
+    row.star:SetSize(16, 16)
+    row.star:SetPoint("LEFT", row, "LEFT", 4, 0)
+    row.star.icon = row.star:CreateTexture(nil, "ARTWORK")
+    row.star.icon:SetAllPoints()
+    row.star:SetScript("OnClick", Star_OnClick)
+    row.star:SetScript("OnEnter", Star_OnEnter)
+    row.star:SetScript("OnLeave", Star_OnLeave)
+    row.name = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    row.name:SetPoint("TOPLEFT", row, "TOPLEFT", 24, -4)
+    row.name:SetJustifyH("LEFT")
+    row.time = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    row.time:SetPoint("TOPRIGHT", row, "TOPRIGHT", -6, -5)
+    row.time:SetJustifyH("RIGHT")
+    row.region = row:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    row.region:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 24, 4)
+    row.region:SetJustifyH("LEFT")
+    row.fare = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    row.fare:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -6, 4)
+    row.fare:SetJustifyH("RIGHT")
+    for _, fs in ipairs({ row.name, row.time, row.region, row.fare }) do
+        if fs.SetWordWrap then fs:SetWordWrap(false) end
+    end
+    row:SetScript("OnEnter", Row_OnEnter)
+    row:SetScript("OnLeave", Row_OnLeave)
+    row:SetScript("OnClick", Row_OnClick)
+    row:SetScript("OnHide", Row_OnLeave)
+    return row
+end
+
+local function FillRow(row, node)
+    row.node, row.pin = node, cur.pinByNode and cur.pinByNode[node]
+    local destination, region = SplitDestinationName(node.name)
+    row.name:SetText(destination)
+    row.region:SetText(region)
+    row.star.icon:SetTexture(IsFavorite(node) and STAR_ON_FILE or STAR_OFF_FILE)
+    row.star.icon:SetAlpha(IsFavorite(node) and 1 or 0.45)
+    if node.type == "REACHABLE" then
+        local sec, recorded = FlightTime(node)
+        row.name:SetTextColor(1, 0.82, 0.2)
+        row.time:SetText(sec and FormatTime(sec, not recorded) or L.TIME_UNKNOWN)
+        row.time:SetTextColor(recorded and 1 or 0.78, recorded and 0.92 or 0.78, recorded and 0.6 or 0.78)
+        row.fare:SetText(CoinText(node.cost, 11))
+    else
+        row.name:SetTextColor(0.6, 0.63, 0.67)
+        row.time:SetText("")
+        row.fare:SetText(FlightPathStatus(node))
+        row.fare:SetTextColor(0.55, 0.58, 0.62)
+    end
+    if node.type == "REACHABLE" then row.fare:SetTextColor(0.9, 0.9, 0.9) end
+    -- Long names never run into the time/fare column.
+    local textW = LIST_W - 24 - 8
+    row.name:SetWidth(max(40, textW - (row.time:GetStringWidth() or 0) - 6))
+    row.region:SetWidth(max(40, textW - (row.fare:GetStringWidth() or 0) - 6))
+    row.sel:SetShown(hover.pin ~= nil and hover.pin == row.pin)
+end
+
+RenderList = function()
+    if not ListPanel then return end
+    if not (DB.showList and cur.nodes) then ListPanel:Hide(); return end
+    listItems = BuildListItems()
+    local visible = VisibleRowCount()
+    local maxOffset = max(0, #listItems - visible)
+    listOffset = min(max(0, listOffset), maxOffset)
+    for i = 1, visible do
+        local row = listRows[i]
+        if not row then
+            row = CreateRow(ListPanel)
+            listRows[i] = row
+        end
+        row:ClearAllPoints()
+        row:SetPoint("TOPLEFT", ListPanel, "TOPLEFT", 4, -(LIST_HEAD_H + (i - 1) * ROW_H))
+        row:SetPoint("TOPRIGHT", ListPanel, "TOPRIGHT", -8, -(LIST_HEAD_H + (i - 1) * ROW_H))
+        local node = listItems[listOffset + i]
+        if node then
+            FillRow(row, node)
+            row.bg:SetAlpha((listOffset + i) % 2 == 0 and 1 or 0)
+            row:Show()
+        else
+            row.node, row.pin = nil, nil
+            row:Hide()
+        end
+    end
+    for i = visible + 1, #listRows do listRows[i]:Hide() end
+    ListPanel.empty:SetShown(#listItems == 0)
+    -- Scroll position
+    local track = ListPanel:GetHeight() - LIST_HEAD_H - 8
+    if maxOffset > 0 and track > 20 then
+        local thumbH = max(16, track * visible / #listItems)
+        ListPanel.thumb:SetHeight(thumbH)
+        ListPanel.thumb:ClearAllPoints()
+        ListPanel.thumb:SetPoint("TOPRIGHT", ListPanel, "TOPRIGHT", -2, -(LIST_HEAD_H + (track - thumbH) * listOffset / maxOffset))
+        ListPanel.thumb:Show()
+    else
+        ListPanel.thumb:Hide()
+    end
+    for key, tab in pairs(ListPanel.tabs) do
+        if key == DB.listSort then tab:LockHighlight() else tab:UnlockHighlight() end
+        tab.text:SetTextColor(key == DB.listSort and 1 or 0.7, key == DB.listSort and 0.82 or 0.7, key == DB.listSort and 0 or 0.7)
+    end
+    ListPanel:Show()
+end
+
+-- Highlight the row of the point under the mouse on the map.
+SyncListSelection = function()
+    for _, row in ipairs(listRows) do
+        if row:IsShown() then row.sel:SetShown(hover.pin ~= nil and hover.pin == row.pin) end
+    end
+end
+
+local function ApplyFilterStyle()
+    for _, p in ipairs(pinPool) do
+        if p.node and p:IsShown() then p:SetAlpha(PinBaseAlpha(p.node)) end
+    end
+    for _, lb in ipairs(labelPool) do
+        if lb.node then StyleLabel(lb, false) end
+    end
+end
+
+local function SetQuery(text)
+    text = (text or ""):gsub("^%s+", ""):gsub("%s+$", "")
+    cur.queryRaw = text ~= "" and text or nil
+    cur.query = cur.queryRaw and cur.queryRaw:lower() or nil
+    listOffset = 0
+    ClearHover()
+    ApplyFilterStyle()
+    RenderList()
+end
+
+local function FlyToFirstResult()
+    for _, node in ipairs(listItems) do
+        if node.type == "REACHABLE" then
+            local pin = cur.pinByNode and cur.pinByNode[node]
+            if pin then Pin_OnClick(pin) end
+            return
+        end
+    end
+end
+
+local function CreateList()
+    local p = CreateFrame("Frame", "EasyFlightMapList", Main, BackdropTemplateMixin and "BackdropTemplate" or nil)
+    p:SetWidth(LIST_W)
+    if p.SetBackdrop then
+        p:SetBackdrop(LABEL_BACKDROP)
+        p:SetBackdropColor(0.025, 0.035, 0.055, 0.92)
+        p:SetBackdropBorderColor(0.42, 0.36, 0.22, 0.7)
+    end
+    p:EnableMouseWheel(true)
+    p:SetScript("OnMouseWheel", function(_, delta)
+        listOffset = listOffset - delta * 3
+        RenderList()
+    end)
+
+    local search = CreateFrame("EditBox", "EasyFlightMapSearch", p, "InputBoxTemplate")
+    search:SetSize(LIST_W - 22, 20)
+    search:SetPoint("TOPLEFT", p, "TOPLEFT", 12, -6)
+    search:SetAutoFocus(false)
+    if search.SetMaxLetters then search:SetMaxLetters(40) end
+    local hint = search:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    hint:SetPoint("LEFT", search, "LEFT", 2, 0)
+    hint:SetText(L.LIST_SEARCH)
+    search.hint = hint
+    search:SetScript("OnTextChanged", function(self)
+        local text = self:GetText() or ""
+        self.hint:SetShown(text == "" and not self:HasFocus())
+        SetQuery(text)
+    end)
+    search:SetScript("OnEditFocusGained", function(self) self.hint:Hide() end)
+    search:SetScript("OnEditFocusLost", function(self)
+        self.hint:SetShown((self:GetText() or "") == "")
+    end)
+    search:SetScript("OnEscapePressed", function(self)
+        if (self:GetText() or "") ~= "" then self:SetText("") else self:ClearFocus() end
+    end)
+    search:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+        FlyToFirstResult()
+    end)
+    p.search = search
+
+    p.tabs = {}
+    local tabW = floor((LIST_W - 16) / 3)
+    for i, key in ipairs({ "name", "time", "fare" }) do
+        local tab = CreateFrame("Button", nil, p)
+        tab:SetSize(tabW - 2, 20)
+        tab:SetPoint("TOPLEFT", p, "TOPLEFT", 8 + (i - 1) * tabW, -30)
+        local bg = tab:CreateTexture(nil, "BACKGROUND")
+        bg:SetAllPoints()
+        bg:SetColorTexture(1, 1, 1, 0.06)
+        local hl = tab:CreateTexture(nil, "HIGHLIGHT")
+        hl:SetAllPoints()
+        hl:SetColorTexture(1, 0.79, 0.31, 0.22)
+        tab:SetHighlightTexture(hl)
+        tab.text = tab:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        tab.text:SetPoint("CENTER")
+        tab.text:SetText(L["SORT_" .. key:upper()])
+        tab.key = key
+        tab:SetScript("OnClick", function(self)
+            DB.listSort = self.key
+            listOffset = 0
+            RenderList()
+        end)
+        p.tabs[key] = tab
+    end
+
+    p.empty = p:CreateFontString(nil, "OVERLAY", "GameFontDisable")
+    p.empty:SetPoint("TOP", p, "TOP", 0, -(LIST_HEAD_H + 20))
+    p.empty:SetText(L.LIST_EMPTY)
+    p.empty:Hide()
+    p.thumb = p:CreateTexture(nil, "OVERLAY")
+    p.thumb:SetWidth(3)
+    p.thumb:SetColorTexture(1, 0.82, 0.4, 0.55)
+    p.thumb:Hide()
+    p:Hide()
+    ListPanel = p
+end
+
 local function ApplyAlpha()
     if Main then Main:SetAlpha(DB.alpha or 1) end
 end
 
-local function Render()
+Render = function()
     local art, nodes = cur.art, cur.nodes
     if not art or not nodes then return end
     ClearHover()
@@ -1422,16 +1820,24 @@ local function Render()
     local x0, y0, x1, y1 = ComputeCrop(W, H, nodes)
     local cw, ch = x1 - x0, y1 - y0
     local uw, uh = UIParent:GetWidth(), UIParent:GetHeight()
+    local listW = (DB.showList and ListPanel) and (LIST_W + LIST_GAP) or 0
     local maxHeight=uh*.95-TITLE_H-FOOT_H
     local s=(uh*.78*DB.scale)/ch
-    s=min(s,(uw*.92-2*PAD)/cw,maxHeight/ch)
+    s=min(s,(uw*.92-2*PAD-listW)/cw,maxHeight/ch)
     cur.s,cur.cx0,cur.cy0,cur.W,cur.H=s,x0,y0,W,H
     local vw,vh=cw*s,ch*s
-    Viewport:ClearAllPoints();Viewport:SetPoint("TOP",Main,"TOP",0,-TITLE_H)
+    local mainW=max(vw+2*PAD+listW,MIN_WIDTH)
+    local mapX=PAD+((mainW-2*PAD-listW)-vw)/2
+    Viewport:ClearAllPoints();Viewport:SetPoint("TOPLEFT",Main,"TOPLEFT",mapX,-TITLE_H)
     Viewport:SetSize(vw,vh)
     LabelLayer:ClearAllPoints();LabelLayer:SetPoint("TOPLEFT",Viewport,"TOPLEFT",0,0)
     LabelLayer:SetSize(vw,vh)
-    Main:SetSize(max(vw+2*PAD,MIN_WIDTH),vh+TITLE_H+FOOT_H);Main:SetScale(1)
+    Main:SetSize(mainW,vh+TITLE_H+FOOT_H);Main:SetScale(1)
+    if ListPanel then
+        ListPanel:ClearAllPoints()
+        ListPanel:SetPoint("TOPRIGHT",Main,"TOPRIGHT",-PAD,-TITLE_H)
+        ListPanel:SetHeight(vh)
+    end
     ApplyAlpha()
 
     -- 지도 그림 (보이는 부분만 잘라서)
@@ -1462,6 +1868,7 @@ local function Render()
 
     -- 비행 지점
     for _, p in ipairs(pinPool) do p:Hide(); p.node = nil end
+    cur.pinByNode, cur.currentPin = {}, nil
     local shown = {}
     local k = 0
     local baseLevel = Viewport:GetFrameLevel()
@@ -1483,17 +1890,21 @@ local function Render()
             pin.hl:SetSize(size * 1.9, size * 1.9)
             SetPinIcon(pin, node.type)
             local distant = (node.type == "DISTANT")
-            pin:SetAlpha(distant and 0.8 or 1)
+            pin:SetAlpha(PinBaseAlpha(node))
             pin:SetFrameLevel(baseLevel + ((node.type == "CURRENT") and 8 or (distant and 5 or 6)))
             local px, py = ToView(node.x, node.y)
             pin:ClearAllPoints()
             pin:SetPoint("CENTER", Viewport, "TOPLEFT", px, -py)
             pin:Show()
+            cur.pinByNode[node] = pin
+            if node.type == "CURRENT" then cur.currentPin = pin end
             shown[#shown + 1] = { pin = pin, node = node, px = px, py = py, r = size / 2 }
         end
     end
     RenderLabels(shown)
     HideLines()
+    RenderList()
+    if Pulse then Pulse:Place() end
 end
 
 ---------------------------------------------------------------------------
@@ -1520,6 +1931,53 @@ local function CloseAll()
     if tf and tf:IsShown() and HideUIPanel then HideUIPanel(tf) end
     if Main then Main:Hide() end
     RestoreBlizzard()
+end
+
+-- Soft rings that keep spreading from your current location.
+local function CreatePulse()
+    local driver = CreateFrame("Frame", nil, Viewport)
+    driver:SetAllPoints(Viewport)
+    driver:EnableMouse(false)
+    driver.rings, driver.t = {}, 0
+    for i = 1, 2 do
+        local ring = Viewport:CreateTexture(nil, "ARTWORK", nil, 2)
+        if ring:SetTexture(RING_FILE) == false then ring:SetTexture(GLOW_FILE) end
+        ring:SetBlendMode("ADD")
+        ring:SetVertexColor(0.42, 1, 0.63)
+        ring:Hide()
+        driver.rings[i] = ring
+    end
+    function driver:Place()
+        local pin = cur.currentPin
+        local x, y
+        if pin and pin:IsShown() then
+            local _, _, _, px, py = pin:GetPoint(1)
+            x, y = px, py
+        end
+        if not (DB.pulse and x) then
+            for _, ring in ipairs(self.rings) do ring:Hide() end
+            self:Hide()
+            return
+        end
+        for _, ring in ipairs(self.rings) do
+            ring:ClearAllPoints()
+            ring:SetPoint("CENTER", Viewport, "TOPLEFT", x, y)
+            ring:Show()
+        end
+        self:Show()
+    end
+    driver:SetScript("OnUpdate", function(self, dt)
+        self.t = (self.t + min(dt or 0, 0.1)) % 2.4
+        local base = (cur.currentPin and cur.currentPin.baseSize) or PIN_SIZE_CURRENT
+        for i, ring in ipairs(self.rings) do
+            local phase = (self.t / 2.4 + (i - 1) * 0.5) % 1
+            local size = base * (1.15 + 1.85 * phase)
+            ring:SetSize(size, size)
+            ring:SetAlpha(0.8 * (1 - phase) ^ 1.6)
+        end
+    end)
+    driver:Hide()
+    return driver
 end
 
 local function CreateUI()
@@ -1576,6 +2034,27 @@ local function CreateUI()
         if GameTooltip:GetOwner() == self then GameTooltip:Hide() end
     end)
 
+    local listBtn = CreateFrame("Button", "EasyFlightMapListButton", Main)
+    listBtn:SetSize(22, 22)
+    listBtn:SetPoint("LEFT", gear, "RIGHT", 6, 0)
+    listBtn:SetNormalTexture(LIST_FILE)
+    listBtn:SetPushedTexture(LIST_FILE)
+    local listPushed = listBtn:GetPushedTexture()
+    if listPushed then listPushed:SetVertexColor(0.7, 0.7, 0.7) end
+    listBtn:SetHighlightTexture(LIST_FILE, "ADD")
+    listBtn:SetScript("OnClick", function()
+        DB.showList = not DB.showList
+        if Render then Render() end
+    end)
+    listBtn:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(L.LIST_TOGGLE, 1, 0.82, 0)
+        GameTooltip:Show()
+    end)
+    listBtn:SetScript("OnLeave", function(self)
+        if GameTooltip:GetOwner() == self then GameTooltip:Hide() end
+    end)
+
     Viewport = CreateFrame("Frame", nil, Main)
     Viewport:SetPoint("TOP", Main, "TOP", 0, -TITLE_H)
     if Viewport.SetClipsChildren then Viewport:SetClipsChildren(true) end
@@ -1586,7 +2065,7 @@ local function CreateUI()
     Viewport:SetScript("OnMouseWheel", function(_, delta)
         if not IsControlKeyDown() then return end
         DB.scale = max(0.5, min(1.2, floor((DB.scale + delta * 0.05) * 20 + 0.5) / 20))
-        Render()
+        ScheduleRender()
     end)
 
     LabelLayer = CreateFrame("Frame", nil, Main)
@@ -1604,6 +2083,8 @@ local function CreateUI()
         HoverLayer.sparks[i] = spark
     end
     HoverLayer:Hide()
+    Pulse = CreatePulse()
+    CreateList()
 
     local hint = Main:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
     hint:SetPoint("BOTTOM", Main, "BOTTOM", 0, 7)
@@ -1668,7 +2149,13 @@ end
 local function Close()
     if Main then Main:Hide() end
     RestoreBlizzard()
-    cur.nodes, cur.art, cur.bySlot = nil, nil, nil
+    cur.nodes, cur.art, cur.bySlot, cur.pinByNode, cur.currentPin = nil, nil, nil, nil, nil
+    -- Start every visit with an empty search box.
+    if ListPanel and ListPanel.search then
+        ListPanel.search:ClearFocus()
+        if (ListPanel.search:GetText() or "") ~= "" then ListPanel.search:SetText("") end
+    end
+    cur.query, cur.queryRaw = nil, nil
 end
 
 ---------------------------------------------------------------------------
@@ -1753,6 +2240,8 @@ local SETTINGS = {
     { kind = "check",  key = "labels",          label = "OPT_LABELS" },
     { kind = "check",  key = "crop",            label = "OPT_CROP" },
     { kind = "check",  key = "showUnreachable", label = "OPT_ALL" },
+    { kind = "check",  key = "showList",        label = "OPT_LIST", sub = "OPT_LIST_SUB" },
+    { kind = "check",  key = "pulse",           label = "OPT_PULSE" },
     { kind = "slider", key = "scale",     label = "OPT_SCALE", min = 50, max = 120, step = 5, fmt = "%d%%" },
     { kind = "slider", key = "alpha",     label = "OPT_ALPHA", min = 0,  max = 70,  step = 5, fmt = "%d%%" },
     { kind = "slider", key = "labelSize", label = "OPT_FONT",  min = 8,  max = 14,  step = 1, fmt = "%d" },
@@ -1763,7 +2252,6 @@ local SETTINGS = {
 
 -- 화면에 보이는 값 <-> 저장 값
 local function GetOpt(key)
-    if key == "art" then return DB.art == "world" end
     if key == "scale" then return floor(DB.scale * 100 + 0.5) end
     if key == "alpha" then return floor((1 - DB.alpha) * 100 + 0.5) end
     if key == "labelSize" then return DB.labelSize end
@@ -1773,18 +2261,21 @@ end
 local function SetOpt(key, value)
     if key == "enabled" then
         SetEnabled(value)
-    elseif key == "art" then
-        DB.art = "taxi"
-        Refresh()
+    elseif key == "showList" then
+        DB.showList = value and true or false
+        if Main and Main:IsShown() and cur.nodes then Render() end
+    elseif key == "pulse" then
+        DB.pulse = value and true or false
+        if Pulse then Pulse:Place() end
     elseif key == "scale" then
         DB.scale = value / 100
-        if Main and Main:IsShown() then Render() end
+        ScheduleRender()
     elseif key == "alpha" then
         DB.alpha = 1 - value / 100
         ApplyAlpha()
     elseif key == "labelSize" then
         DB.labelSize = value
-        if Main and Main:IsShown() then Render() end
+        ScheduleRender()
     elseif key == "flightBar" then
         DB.flightBar = value and true or false
         ApplyBarSetting()
@@ -2019,6 +2510,8 @@ ev:SetScript("OnEvent", function(_, event, arg1)
         if arg1 == ADDON_NAME then
             InitDB()
             OptionsPanel = RegisterOptionsPanel()
+            local tf = _G.TaxiFrame
+            if tf and tf.HookScript then tf:HookScript("OnShow", PreHideBlizzard) end
 
         end
     elseif event == "TAXIMAP_OPENED" then
@@ -2029,6 +2522,10 @@ ev:SetScript("OnEvent", function(_, event, arg1)
         local function capture()
             if not cur.open or cur.generation ~= generation then return end
             local ok, data = pcall(TakeSnapshot)
+            if ok and data and snap and Main and Main:IsShown() and cur.nodes
+                and SnapSignature(data) == SnapSignature(snap) then
+                return
+            end
             snap = ok and data or nil
             if not ok then Print(L.MSG_ERROR:format(tostring(data))) end
             if DB and DB.enabled then Open() end
@@ -2080,9 +2577,8 @@ SlashCmdList.EASYFLIGHTMAP = function(msg)
         Toggle("flightBar", L.MSG_BAR)
     elseif cmd == "alert" then
         Toggle("arrivalAlert", L.MSG_ALERT)
-    elseif cmd == "art" then
-        SetOpt("art", DB.art ~= "world")
-        Print(L.MSG_ART:format(DB.art == "world" and L.ART_WORLD or L.ART_TAXI))
+    elseif cmd == "list" then
+        Toggle("showList", L.MSG_LIST)
     elseif cmd == "scale" then
         if num then
             if num <= 2 then num = num * 100 end   -- 0.8 처럼 입력해도 됨
