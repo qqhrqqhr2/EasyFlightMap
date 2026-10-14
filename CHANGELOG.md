@@ -1,5 +1,21 @@
 # Changelog — Easy Flight Map
 
+## 0.6.1
+
+### English
+
+- Show fares you can't afford in red, with a "Not enough money" note in the tooltip.
+- Keep the last destination you flew to from each flight master at the top of the list, marked "Recent".
+- Show the number of stops on the remaining flight time bar, and which stop you are on when route data is available.
+- Add an option to start typing in the search box as soon as the map opens (off by default).
+
+### 한국어
+
+- 가진 돈보다 비싼 요금은 빨간색으로 표시하고, 툴팁에 "돈이 부족합니다"를 알려 줍니다.
+- 각 비행 조련사에서 마지막으로 간 목적지를 목록 맨 위에 "최근"으로 표시합니다.
+- 남은 비행 시간 막대에 경유지 수와, 경로 정보가 있으면 지금 몇 번째 경유 구간인지 표시합니다.
+- 지도가 열리면 바로 검색창에 입력할 수 있는 설정을 추가했습니다 (기본 꺼짐).
+
 ## 0.6.0
 
 ### English

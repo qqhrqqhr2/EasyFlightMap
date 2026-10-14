@@ -1,6 +1,6 @@
 # Easy Flight Map User Guide
 
-Version: 0.6.0
+Version: 0.6.1
 
 ## Installation
 
@@ -28,6 +28,8 @@ A destination list appears to the right of the map. Toggle it with the list butt
 - **Search**: Type part of a destination name to narrow the list; points that don't match are dimmed on the map. Press Enter to fly to the first reachable result.
 - **Sort**: Use the Name, Time and Fare tabs.
 - **Favorites**: Click the star at the start of a row. Favorites stay at the top of the list and get a star on their map label.
+- **Recent**: The last destination you flew to from this flight master is shown at the top, marked "Recent".
+- **Not enough money**: Fares above the money you carry are shown in red.
 - Hover a row to highlight its route on the map; click it to fly.
 
 ## Flying
@@ -55,7 +57,7 @@ Estimates may differ from actual travel times. Completing a flight saves its tra
 - **Ctrl + Mouse Wheel**: Resize the map window.
 - **Drag the flight timer bar**: Move the remaining time bar.
 - **Show default flight map**: A button in the gear settings window that switches to the game's default flight map.
-- **Remaining time bar**: Shows the remaining time and local arrival time while flying.
+- **Remaining time bar**: Shows the remaining time, local arrival time and stops while flying.
 
 Labels are placed inside the map and avoid covering flight markers. Some labels may be hidden when destinations are too crowded. Hover over a marker to view its details in that case.
 
@@ -72,6 +74,7 @@ Enter `/efm config` in chat to open settings.
 | Show unreachable points | Display undiscovered and unconnected destinations |
 | Show destination list | Searchable, sortable list with favorites next to the map |
 | Pulse effect on your location | Soft rings spreading from your current location |
+| Type into the search box as soon as the map opens | Search right away; movement keys go into the box while it is active, so press Esc to leave it |
 | Window size, transparency, and text size | Adjust the display |
 | Confirm before flying | Review the destination and fare before departure |
 | Show remaining flight time bar | Display the flight timer |

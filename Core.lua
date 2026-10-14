@@ -58,6 +58,13 @@ if GetLocale() == "koKR" then
         OPT_LIST     = "목적지 목록 표시",
         OPT_LIST_SUB = "지도 옆에 검색·정렬·즐겨찾기 목록을 보여줍니다",
         OPT_PULSE    = "현재 위치 파동 효과",
+        OPT_AUTOSEARCH     = "지도가 열리면 검색창에 바로 입력",
+        OPT_AUTOSEARCH_SUB = "켜면 이동 키도 검색창에 입력됩니다. Esc로 빠져나옵니다",
+        NO_MONEY     = "돈이 부족합니다",
+        RECENT       = "최근",
+        TT_RECENT    = "이 조련사에서 최근에 간 곳",
+        BAR_STOPS    = "경유 %d/%d",
+        BAR_STOPS_N  = "경유 %d곳",
         LIST_SEARCH  = "목적지 검색",
         LIST_EMPTY   = "찾는 목적지가 없습니다",
         LIST_TOGGLE  = "목적지 목록",
@@ -146,6 +153,13 @@ else
         OPT_LIST     = "Show destination list",
         OPT_LIST_SUB = "Searchable, sortable list with favorites next to the map",
         OPT_PULSE    = "Pulse effect on your location",
+        OPT_AUTOSEARCH     = "Type into the search box as soon as the map opens",
+        OPT_AUTOSEARCH_SUB = "Movement keys also go into the box while it is active. Press Esc to leave it",
+        NO_MONEY     = "Not enough money",
+        RECENT       = "Recent",
+        TT_RECENT    = "Recently flown from this flight master",
+        BAR_STOPS    = "stop %d/%d",
+        BAR_STOPS_N  = "%d stop(s)",
         LIST_SEARCH  = "Search destinations",
         LIST_EMPTY   = "No matching destinations",
         LIST_TOGGLE  = "Destination list",
@@ -207,6 +221,7 @@ local defaults = {
     flightBar       = true,     -- 비행 중 남은 시간 막대
     arrivalAlert    = true,     -- 도착 알림
     confirmFlight   = false,
+    autoSearch      = false,    -- 지도가 열리면 검색창에 바로 입력
     showList        = true,     -- 지도 옆 목적지 목록
     listSort        = "name",   -- "name" | "time" | "fare"
     pulse           = true,     -- 현재 위치 파동 효과
@@ -230,6 +245,7 @@ local function InitDB()
     if type(DB.times) ~= "table" then DB.times = {} end              -- "출발 > 도착" = 초
     if type(DB.flightSpeeds) ~= "table" then DB.flightSpeeds = {} end
     if type(DB.favorites) ~= "table" then DB.favorites = {} end       -- 목적지 이름 = true
+    if type(DB.recent) ~= "table" then DB.recent = {} end             -- 출발지 이름 = 마지막 목적지 이름
     DB.scale = FiniteNumber(DB.scale) and max(0.5,min(1.2,DB.scale)) or defaults.scale
     DB.alpha = FiniteNumber(DB.alpha) and max(0.3,min(1,DB.alpha)) or defaults.alpha
     -- Existing installs inherited automatic cropping. Show the complete map
@@ -676,6 +692,38 @@ local function FlightTime(e)
     end
 end
 
+-- Fare is known and more than the character carries.
+local function TooExpensive(node)
+    if not (node and node.type == "REACHABLE" and FiniteNumber(node.cost) and GetMoney) then return false end
+    local money = GetMoney()
+    return FiniteNumber(money) and node.cost > money
+end
+
+local function FareText(node, size)
+    local text = CoinText(node.cost, size)
+    if TooExpensive(node) then return "|cffff4d4d" .. text .. "|r" end
+    return text
+end
+
+-- Last destination taken from the flight master you are standing at.
+local function IsRecent(node)
+    return node and snap and snap.current and DB.recent[snap.current] == node.name
+end
+
+-- Fraction of the whole route covered at the end of each hop (needs path data).
+local function HopFractions(e)
+    if not (snap and e.segs and #e.segs > 1 and e.dist and e.dist > 0) then return end
+    local paths, acc, out = EasyFlightMapRouteDistances or {}, 0, {}
+    for i, seg in ipairs(e.segs) do
+        local a, b = snap.bySlot[seg[1]].nodeID, snap.bySlot[seg[2]].nodeID
+        local yards = a and b and paths[a] and paths[a][b]
+        if not FiniteNumber(yards) then return end
+        acc = acc + yards
+        out[i] = acc / e.dist
+    end
+    return out
+end
+
 ---------------------------------------------------------------------------
 -- 비행 중: 남은 시간 막대, 도착 알림, 비행 시간 기록
 ---------------------------------------------------------------------------
@@ -690,7 +738,7 @@ end
 local function CreateBar()
     if Bar then return end
     Bar = CreateFrame("Frame", "EasyFlightMapBar", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
-    Bar:SetSize(290, 32)
+    Bar:SetSize(330, 32)
     Bar:SetFrameStrata("MEDIUM")
     Bar:SetClampedToScreen(true)
     Bar:SetMovable(true)
@@ -728,6 +776,8 @@ local function CreateBar()
     Bar.time = sb:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     Bar.time:SetPoint("RIGHT", sb, "RIGHT", -5, 0)
     Bar.time:SetJustifyH("RIGHT")
+    Bar.dest:SetPoint("RIGHT", Bar.time, "LEFT", -6, 0)
+    if Bar.dest.SetWordWrap then Bar.dest:SetWordWrap(false) end
 
     Bar:ClearAllPoints()
     local pt = DB.barPoint
@@ -739,9 +789,23 @@ local function CreateBar()
     Bar:Hide()
 end
 
+local function StopsText(elapsed)
+    local stops = (pending.hops or 0) - 1
+    if stops < 1 then return "" end
+    local passed
+    if pending.hopFractions and pending.total and pending.total > 0 then
+        local f = elapsed / pending.total
+        passed = 0
+        for i = 1, stops do if f >= pending.hopFractions[i] then passed = i end end
+        return "  |cffaaaaaa" .. L.BAR_STOPS:format(min(passed + 1, stops), stops) .. "|r"
+    end
+    return "  |cffaaaaaa" .. L.BAR_STOPS_N:format(stops) .. "|r"
+end
+
 local function UpdateBar(now)
     if not (Bar and pending and pending.start) then return end
     local elapsed = now - pending.start
+    Bar.dest:SetText(ShortName(pending.dest) .. StopsText(elapsed))
     if pending.total and pending.total > 0 then
         local remain = pending.total - elapsed
         Bar.status:SetValue(min(1, elapsed / pending.total))
@@ -840,8 +904,10 @@ if hooksecurefunc and TakeTaxiNode then
         local e = snap and snap.bySlot[slot]
         if not (e and e.type == "REACHABLE" and snap.current and GetTime and UnitOnTaxi) then return end
         local total, recorded = FlightTime(e)
+        DB.recent[snap.current] = e.name
         pending = {
             key = e.timeKey, dest = e.name, dist = e.dist,
+            hops = e.hops, hopFractions = HopFractions(e),
             speedKey=snap.speedKey, speedMultiplier=snap.speedMultiplier,
             total = total, recorded = recorded, t0 = GetTime(),
         }
@@ -1197,7 +1263,9 @@ local function Pin_OnEnter(self)
     if node.type == "CURRENT" then
         GameTooltip:AddLine(L.CURRENT, 0.4, 1, 0.6)
     elseif node.type == "REACHABLE" then
-        GameTooltip:AddLine(CoinText(node.cost, 12), 1, 1, 1)
+        GameTooltip:AddLine(FareText(node, 12), 1, 1, 1)
+        if TooExpensive(node) then GameTooltip:AddLine(L.NO_MONEY, 1, 0.3, 0.3) end
+        if IsRecent(node) then GameTooltip:AddLine(L.TT_RECENT, 0.55, 0.8, 1) end
         local sec, recorded = FlightTime(node)
         if sec then
             if recorded then GameTooltip:AddLine(L.TT_TIME:format(FormatTime(sec)), 1, 1, 1)
@@ -1368,7 +1436,7 @@ local function DestinationInfo(node, size)
     if node.type ~= "REACHABLE" then return FlightPathStatus(node) end
     local sec, recorded = FlightTime(node)
     local time = sec and FormatTime(sec, not recorded) or L.TIME_UNKNOWN
-    return CoinText(node.cost, size) .. "   " .. L.TIME .. " " .. time
+    return FareText(node, size) .. "   " .. L.TIME .. " " .. time
 end
 
 RefreshFareLabel = function(pin)
@@ -1531,6 +1599,7 @@ local function BuildListItems()
     end
     local key = DB.listSort
     local function group(n)
+        if IsRecent(n) and n.type == "REACHABLE" then return 0 end
         if IsFavorite(n) then return 1 end
         return n.type == "REACHABLE" and 2 or 3
     end
@@ -1625,6 +1694,9 @@ local function FillRow(row, node)
     row.node, row.pin = node, cur.pinByNode and cur.pinByNode[node]
     local destination, region = SplitDestinationName(node.name)
     row.name:SetText(destination)
+    if IsRecent(node) then
+        region = "|cff8cc8ff" .. L.RECENT .. "|r" .. (region ~= "" and (" · " .. region) or "")
+    end
     row.region:SetText(region)
     row.star.icon:SetTexture(IsFavorite(node) and STAR_ON_FILE or STAR_OFF_FILE)
     row.star.icon:SetAlpha(IsFavorite(node) and 1 or 0.45)
@@ -1633,7 +1705,7 @@ local function FillRow(row, node)
         row.name:SetTextColor(1, 0.82, 0.2)
         row.time:SetText(sec and FormatTime(sec, not recorded) or L.TIME_UNKNOWN)
         row.time:SetTextColor(recorded and 1 or 0.78, recorded and 0.92 or 0.78, recorded and 0.6 or 0.78)
-        row.fare:SetText(CoinText(node.cost, 11))
+        row.fare:SetText(FareText(node, 11))
     else
         row.name:SetTextColor(0.6, 0.63, 0.67)
         row.time:SetText("")
@@ -2139,6 +2211,9 @@ local function Open()
     if ok and res then
         HideBlizzard()
         Main:Show()
+        if DB.autoSearch and DB.showList and ListPanel and ListPanel:IsShown() and ListPanel.search then
+            ListPanel.search:SetFocus()
+        end
     else
         if Main then Main:Hide() end
         RestoreBlizzard()
@@ -2242,6 +2317,7 @@ local SETTINGS = {
     { kind = "check",  key = "showUnreachable", label = "OPT_ALL" },
     { kind = "check",  key = "showList",        label = "OPT_LIST", sub = "OPT_LIST_SUB" },
     { kind = "check",  key = "pulse",           label = "OPT_PULSE" },
+    { kind = "check",  key = "autoSearch",      label = "OPT_AUTOSEARCH", sub = "OPT_AUTOSEARCH_SUB" },
     { kind = "slider", key = "scale",     label = "OPT_SCALE", min = 50, max = 120, step = 5, fmt = "%d%%" },
     { kind = "slider", key = "alpha",     label = "OPT_ALPHA", min = 0,  max = 70,  step = 5, fmt = "%d%%" },
     { kind = "slider", key = "labelSize", label = "OPT_FONT",  min = 8,  max = 14,  step = 1, fmt = "%d" },
