@@ -4,7 +4,7 @@
 ## Notes: Easy flight master map. Shows gryphon, wyvern, bat and hippogryph flight points with name, cost and flight time in a clean, separate window without other addons' map icons.
 ## Notes-koKR: 비행 조련사(그리폰·와이번·박쥐·히포그리프)와 대화하면 다른 애드온 아이콘 없이 비행 지점과 목적지 이름·요금·소요 시간만 보이는 깔끔한 전용 지도 창을 띄웁니다.
 ## Author: qqhrqqhr2
-## Version: 0.6.1
+## Version: 0.6.2
 ## IconTexture: Interface\AddOns\EasyFlightMap\Media\Icon
 ## SavedVariables: EasyFlightMapDB
 ## X-Curse-Project-ID: 1736991

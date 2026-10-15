@@ -1,5 +1,15 @@
 # Changelog — Easy Flight Map
 
+## 0.6.2
+
+### English
+
+- Track flights that start straight from a dialog option without opening the flight map, such as the druid flight masters in Moonglade. The remaining time bar now appears for them, and their flight time is recorded on arrival.
+
+### 한국어
+
+- 달의 숲 드루이드 전용 조련사처럼 비행 지도 없이 대화 선택지로 바로 출발하는 비행도 인식합니다. 남은 시간 막대가 표시되고, 도착하면 비행 시간을 기록합니다.
+
 ## 0.6.1
 
 ### English

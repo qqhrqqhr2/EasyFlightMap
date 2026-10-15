@@ -2574,6 +2574,59 @@ local function OnGossipShow()
 end
 
 ---------------------------------------------------------------------------
+-- 대화 선택지로 바로 출발하는 비행 (비행 지도가 열리지 않는 조련사)
+-- 예: 달의 숲 드루이드 전용 조련사 → 썬더 블러프 / 다르나서스
+---------------------------------------------------------------------------
+local DIRECT_FLIGHT_NPCS = {
+    [11798] = 1456,   -- Bunthen Plainswind: Moonglade -> Thunder Bluff
+    [11800] = 1457,   -- Silva Fil'naveth: Moonglade -> Darnassus
+}
+
+local function NpcID()
+    local guid = UnitGUID and UnitGUID("npc")
+    if type(guid) ~= "string" then return end
+    local kind, _, _, _, _, id = strsplit("-", guid)
+    if kind == "Creature" then return tonumber(id) end
+end
+
+local function DirectFlightDestination(npcID, option)
+    local mapID = npcID and DIRECT_FLIGHT_NPCS[npcID]
+    if mapID and C_Map and C_Map.GetMapInfo then
+        local info = C_Map.GetMapInfo(mapID)
+        if info and info.name and info.name ~= "" then return info.name end
+    end
+    return option and option.name
+end
+
+local function OnGossipOptionSelected(optionID)
+    local G = C_GossipInfo
+    if not (G and G.GetOptions and GetTime and UnitOnTaxi) then return end
+    local npcID = NpcID()
+    local chosen
+    local opts = G.GetOptions()
+    for i, o in ipairs(type(opts) == "table" and opts or {}) do
+        if o.gossipOptionID == optionID or (not o.gossipOptionID and i == optionID) then chosen = o break end
+    end
+    if not chosen then return end
+    if not (DIRECT_FLIGHT_NPCS[npcID] or IsTaxiOption(chosen)) then return end
+    local npcName = UnitName and UnitName("npc") or "?"
+    local key = "gossip-flight | " .. tostring(npcID or npcName) .. " | " .. tostring(chosen.name)
+    local rec = DB and DB.times[key]
+    local recorded = FiniteNumber(rec) and rec >= 5 and rec <= 3600
+    -- A normal flight master opens the flight map next; TAXIMAP_OPENED cancels this.
+    pending = {
+        key = key, dest = DirectFlightDestination(npcID, chosen) or "?", direct = true,
+        total = recorded and rec or nil, recorded = recorded or nil, t0 = GetTime(),
+    }
+    acc = 0
+    watcher:Show()
+end
+
+if hooksecurefunc and C_GossipInfo and C_GossipInfo.SelectOption then
+    hooksecurefunc(C_GossipInfo, "SelectOption", function(optionID) OnGossipOptionSelected(optionID) end)
+end
+
+---------------------------------------------------------------------------
 -- 이벤트
 ---------------------------------------------------------------------------
 local ev = CreateFrame("Frame")
@@ -2591,6 +2644,7 @@ ev:SetScript("OnEvent", function(_, event, arg1)
 
         end
     elseif event == "TAXIMAP_OPENED" then
+        if pending and pending.direct and not pending.start then pending = nil end
         cur.open = true
         cur.generation = (cur.generation or 0) + 1
         local generation = cur.generation
