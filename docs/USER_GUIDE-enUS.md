@@ -112,3 +112,18 @@ You can use `/easyflightmap` instead of `/efm`. The Korean alias `/비행지도`
 **To use the default map**, click **Show default flight map** in the gear settings window or enter `/efm off`.
 
 **When reporting an issue**, include the addon version, client version, faction, departure and destination, error message, and a screenshot.
+
+
+## World map flight masters
+
+World, continent and zone maps show Alliance flight masters in blue, Horde in red, and neutral in gold. Hover to see the destination and faction. Undiscovered status is shown for friendly and neutral nodes when supplied by the game. Visit the flight master to take a flight.
+
+Turn off **Show flight masters by faction on the world map** in `/efm config` to restore the default map display. Enabled by default. Names and positions come from the client; no separate location database or addon is required.
+
+Use the **Flight masters** checkbox at the bottom left of the map to toggle the markers immediately. It shares the same saved setting as the settings window and remembers your choice after login.
+
+The faction checkboxes select **your character’s faction and neutral** by default. The opposing faction starts unchecked and can be enabled manually. Choices are saved separately for Alliance and Horde characters.
+
+
+
+The original addon icon stays visible at all times. Click it to toggle the adjacent options panel, or drag the icon to move it. Opening settings preserves the icon position; the panel opens inward near map edges.

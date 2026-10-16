@@ -8,3 +8,4 @@ ignore:
   - docs
   - README-koKR.md
   - RELEASING.md
+  - tests

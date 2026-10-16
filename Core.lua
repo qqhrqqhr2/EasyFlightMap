@@ -3,7 +3,7 @@
 -- 목적지 이름·요금·소요 시간을 보여줍니다.
 -- Shows flight points with name, cost and flight time in a clean, separate map window.
 
-local ADDON_NAME = ...
+local ADDON_NAME, Addon = ...
 
 local floor, ceil, min, max, sqrt, abs = math.floor, math.ceil, math.min, math.max, math.sqrt, math.abs
 
@@ -45,6 +45,7 @@ if GetLocale() == "koKR" then
         OPT_ENABLED  = "전용 비행 지도 사용",
         OPT_SKIP     = "대화창 없이 바로 지도 열기",
         OPT_SKIP_SUB = "Shift를 누른 채 말을 걸면 대화창이 나옵니다",
+        OPT_WORLDMAP = "세계지도에 진영별 비행 조련사 표시",
         OPT_LABELS   = "목적지 이름·요금·시간 표시",
         OPT_CROP     = "비행 지점 부분만 크게 보기",
         OPT_ALL      = "미발견·미연결 비행 지점도 표시",
@@ -140,6 +141,7 @@ else
         OPT_ENABLED  = "Use the Easy Flight Map window",
         OPT_SKIP     = "Skip the dialog and open the map directly",
         OPT_SKIP_SUB = "Hold Shift while talking to see the dialog",
+        OPT_WORLDMAP = "Show flight masters by faction on the world map",
         OPT_LABELS   = "Show destination name, cost and time",
         OPT_CROP     = "Zoom to flight points",
         OPT_ALL      = "Show undiscovered and unconnected points",
@@ -221,6 +223,7 @@ local defaults = {
     flightBar       = true,     -- 비행 중 남은 시간 막대
     arrivalAlert    = true,     -- 도착 알림
     confirmFlight   = false,
+    worldMapFlights = true,
     autoSearch      = false,    -- 지도가 열리면 검색창에 바로 입력
     showList        = true,     -- 지도 옆 목적지 목록
     listSort        = "name",   -- "name" | "time" | "fare"
@@ -2312,6 +2315,7 @@ local SETTINGS = {
     { kind = "check",  key = "skipGossip",      label = "OPT_SKIP", sub = "OPT_SKIP_SUB" },
     { kind = "check",  key = "confirmFlight",   label = "OPT_CONFIRM" },
     { kind = "header", label = "HEAD_MAP" },
+    { kind = "check",  key = "worldMapFlights", label = "OPT_WORLDMAP" },
     { kind = "check",  key = "labels",          label = "OPT_LABELS" },
     { kind = "check",  key = "crop",            label = "OPT_CROP" },
     { kind = "check",  key = "showUnreachable", label = "OPT_ALL" },
@@ -2337,6 +2341,9 @@ end
 local function SetOpt(key, value)
     if key == "enabled" then
         SetEnabled(value)
+    elseif key == "worldMapFlights" then
+        DB.worldMapFlights = value and true or false
+        if Addon.RefreshWorldMap then Addon.RefreshWorldMap() end
     elseif key == "showList" then
         DB.showList = value and true or false
         if Main and Main:IsShown() and cur.nodes then Render() end
@@ -2412,6 +2419,10 @@ local function BuildSettings(parent, x, y, width)
                 y = y - 12
             end
             cb.optKey = opt.key
+            if opt.key == "worldMapFlights" then
+                Addon.WorldMapSettingControls = Addon.WorldMapSettingControls or {}
+                table.insert(Addon.WorldMapSettingControls, cb)
+            end
             cb:SetScript("OnClick", function(self)
                 SetOpt(self.optKey, self:GetChecked() and true or false)
             end)
